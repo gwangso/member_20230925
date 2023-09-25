@@ -11,10 +11,11 @@
     <div class="col">
         <div class="card p-5">
             <form id="member-save-form" action="/member/save" method="post">
-                <div class="input-group mb-3">
+                <div class="input-group">
                     <span class="input-group-text">이메일</span>
-                    <input name="memberEmail" type="text" class="form-control" on>
+                    <input name="memberEmail" type="text" class="form-control" onkeyup="duplicate_check(this.value)">
                 </div>
+                <div class="form-text mb-3" id="email-check" style="color:gray;">이메일을 입력해주세요.</div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">비밀번호</span>
                     <input name="memberPassword" type="password" class="form-control">
@@ -55,6 +56,26 @@
         }
     }
 
-
+    const duplicate_check = (memberEmail) =>{
+        const emailCheck = document.getElementById("email-check");
+        if(memberEmail==""){
+            emailCheck.innerHTML = "이메일을 입력해주세요."
+            emailCheck.style.color = "gray";
+        }else {
+            $.ajax({
+                type:"post",
+                url:"/member/dup-check",
+                data:{memberEmail : memberEmail},
+                success:function(data){
+                    emailCheck.innerHTML = "사용할 수 있는 이메일입니다."
+                    emailCheck.style.color = "green";
+                },
+                error:function(data){
+                    emailCheck.innerHTML = "사용할 수 없는 이메일입니다."
+                    emailCheck.style.color = "red";
+                }
+            })
+        }
+    }
 </script>
 </html>

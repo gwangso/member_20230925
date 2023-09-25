@@ -3,6 +3,8 @@ package com.icia.member.controller;
 import com.icia.member.dto.MemberDTO;
 import com.icia.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,16 @@ public class MemberController {
     public String save(@ModelAttribute MemberDTO memberDTO){
         memberService.save(memberDTO);
         return "index";
+    }
+
+    @PostMapping("/member/dup-check")
+    public ResponseEntity emailDuplicate(@RequestParam("memberEmail") String memberEmail){
+        boolean result = memberService.findByEmail(memberEmail);
+        if(result){
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/members")
