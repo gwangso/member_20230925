@@ -27,11 +27,10 @@
         const loginArea = document.getElementById("login-area");
         const loginEmail = [[${session.loginEmail}]];
         const loginName = [[${session.loginName}]]
-        console.log(loginEmail);
         if (loginEmail != null) {
             // 로그인 했음
             loginArea.innerHTML = "<a href='/mypage'>" + loginName + "님 환영해요!</a>" +
-                "<a href='/logout'>logout</a>";
+                "<a href='/logout'>로그아웃</a>";
         } else {
             // 로그인 안했음
             loginArea.innerHTML = "<a href='/member/login'>로그인</a>";

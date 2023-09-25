@@ -54,9 +54,22 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("loginId");
+        session.removeAttribute("loginEmail");
+        session.removeAttribute("loginName");
+        return "redirect:/";
+    }
+
     @GetMapping("/member/main/{id}")
-    public String main(@PathVariable("id") Long id){
-        return "memberPage/memberMain";
+    public String main(@PathVariable("id") Long id,
+                       HttpSession session){
+        if(session.getAttribute("loginId") == null){
+            return "redirect:/";
+        }else{
+            return "memberPage/memberMain";
+        }
     }
 
     @GetMapping("/member/{id}")
