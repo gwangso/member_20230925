@@ -74,17 +74,37 @@ public class MemberController {
 
     @GetMapping("/member/{id}")
     public String detail(@PathVariable("id") Long id,
+                         HttpSession session,
                          Model model){
-        MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("member",memberDTO);
-        return "memberPage/memberDetail";
+        if(session.getAttribute("loginId") == null){
+            return "redirect:/";
+        }else{
+            MemberDTO memberDTO = memberService.findById(id);
+            model.addAttribute("member",memberDTO);
+            return "memberPage/memberDetail";
+        }
     }
 
     @GetMapping("/member/update/{id}")
     public String update(@PathVariable("id") Long id,
+                         HttpSession session,
                          Model model){
-        MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("member",memberDTO);
-        return "memberPage/memberUpdate";
+        if(session.getAttribute("loginId") == null){
+            return "redirect:/";
+        }else{
+            MemberDTO memberDTO = memberService.findById(id);
+            model.addAttribute("member",memberDTO);
+            return "memberPage/memberUpdate";
+        }
+    }
+
+    @GetMapping("/member/delete/{id}")
+    public String update(@PathVariable("id") Long id,
+                         HttpSession session){
+        session.removeAttribute("loginId");
+        session.removeAttribute("loginEmail");
+        session.removeAttribute("loginName");
+        memberService.delete(id);
+        return "redirect:/";
     }
 }

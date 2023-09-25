@@ -25,11 +25,12 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         const loginArea = document.getElementById("login-area");
+        const loginId = [[${session.loginId}]];
         const loginEmail = [[${session.loginEmail}]];
-        const loginName = [[${session.loginName}]]
+        const loginName = [[${session.loginName}]];
         if (loginEmail != null) {
             // 로그인 했음
-            loginArea.innerHTML = "<a href='/mypage'>" + loginName + "님 환영해요!</a>" +
+            loginArea.innerHTML = "<a href='/member/"+loginId+"'>" + loginName + "님 환영해요!</a>" +
                 "<a href='/logout'>로그아웃</a>";
         } else {
             // 로그인 안했음

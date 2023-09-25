@@ -54,4 +54,8 @@ public class MemberService {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         return MemberDTO.toMemberDTO(memberEntity);
     }
+
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
+    }
 }

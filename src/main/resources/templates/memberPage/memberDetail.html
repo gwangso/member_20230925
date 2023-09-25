@@ -16,8 +16,19 @@
                 <h3 th:text="${member.memberBirth}"></h3>
                 <h3 th:text="${member.memberMobile}"></h3>
             </div>
+
+            <div id="check-password" style="display: none;">
+                <form id="delete-form" th:action="@{|/member/delete/${member.id}|}" method="get" onsubmit="delete_fn()">
+                    <div class="input-group">
+                        <span class="input-group-text">비밀번호</span>
+                        <input class="form-control" name="memberPassword" type="password">
+                        <button class="btn btn-danger" onclick="delete_fn()">삭제</button>
+                    </div>
+                </form>
+            </div>
+
             <div>
-                <button class="btn btn-outline-danger">삭제</button>
+                <button class="btn btn-outline-danger" onclick="open_checkPassword()">삭제</button>
                 <button class="btn btn-outline-warning" onclick="to_update()">수정</button>
             </div>
         </div>
@@ -32,5 +43,28 @@
         location.href = "/member/update/"+id;
     }
     /*]]>*/
+
+    const open_checkPassword = () =>{
+        const checkPassword = document.getElementById("check-password")
+        checkPassword.style.display = "block";
+    }
+
+
+    const deleteForm = document.getElementById("delete-form");
+    deleteForm.addEventListener("submit", (event) =>{
+        event.preventDefault();
+        const memberPassword = [[${member.memberPassword}]]
+        const password = document.getElementsByName("memberPassword")[0]
+        console.log(memberPassword)
+        console.log(password)
+        if(memberPassword == password.value){
+            if(confirm("정말로 탈퇴하시겠습니까?")){
+                deleteForm.submit();
+            }
+        }else{
+            alert("비밀번호가 다릅니다.")
+        }
+    })
+
 </script>
 </html>
