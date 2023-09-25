@@ -38,4 +38,15 @@ public class MemberEntity {
         return memberEntity;
     }
 
+    public static MemberEntity toUpdateEntity(MemberDTO memberDTO){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.id = memberDTO.getId();
+        memberEntity.memberEmail = memberDTO.getMemberEmail();
+        memberEntity.memberPassword = memberDTO.getMemberPassword();
+        memberEntity.memberName = memberDTO.getMemberName();
+        memberEntity.memberBirth = memberDTO.getMemberBirth();
+        memberEntity.memberMobile = memberDTO.getMemberMobile();
+        return memberEntity;
+    }
+
 }

@@ -13,7 +13,7 @@
             <form id="member-save-form" action="/member/save" method="post">
                 <div class="input-group mb-3">
                     <span class="input-group-text">이메일</span>
-                    <input name="memberEmail" type="text" class="form-control">
+                    <input name="memberEmail" type="text" class="form-control" on>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">비밀번호</span>
@@ -40,6 +40,7 @@
         </div>
     </div>
 </div>
+<hr>
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
@@ -53,5 +54,7 @@
             memberSaveForm.submit();
         }
     }
+
+
 </script>
 </html>

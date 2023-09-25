@@ -10,7 +10,7 @@
 <div class="row m-5">
     <div class="col">
         <div class="card p-5">
-            <form id="member-update-form" th:action="@{|/member/update/${member.id}|}" method="post">
+            <form id="member-update-form" action="/member/update" method="post">
                 <input name="id" type="hidden" class="form-control" th:value="${member.id}">
                 <div class="input-group mb-3">
                     <span class="input-group-text">이메일</span>
@@ -35,7 +35,7 @@
                 <div class="text-end">
                     <input type="button" class="btn btn-outline-secondary" value="홈화면" th:onclick="to_detail([[${member.id}]])">
                     <input type="reset" class="btn btn-outline-warning" value="초기화">
-                    <input type="button" class="btn btn-outline-primary" value="저장" onclick="update_member()">
+                    <input type="button" class="btn btn-outline-primary" value="수정" onclick="update_member()">
                 </div>
             </form>
         </div>
@@ -44,8 +44,8 @@
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
-    function to_main(id){
-        location.href = "/member/main/"+id;
+    function to_detail(id){
+        location.href = "/member/"+id;
     }
 
     const update_member = () =>{

@@ -98,6 +98,18 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/member/update")
+    public String update(@ModelAttribute MemberDTO memberDTO,
+                         HttpSession session,
+                         Model model){
+        memberService.update(memberDTO);
+        if(session.getAttribute("loginId") == null){
+            return "redirect:/";
+        }else{
+            return "redirect:/member/"+memberDTO.getId();
+        }
+    }
+
     @GetMapping("/member/delete/{id}")
     public String update(@PathVariable("id") Long id,
                          HttpSession session){
@@ -107,4 +119,6 @@ public class MemberController {
         memberService.delete(id);
         return "redirect:/";
     }
+
+
 }
