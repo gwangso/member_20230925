@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="row m-5">
+    <div class="col">
+        <div class="card p-5">
+            <form id="login-form" action="/member/login" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이메일</span>
+                    <input name="memberEmail" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호</span>
+                    <input name="memberPassword" type="password" class="form-control">
+                </div>
+                <div class="text-end">
+                    <input type="button" class="btn btn-outline-secondary" value="홈화면" onclick="to_index()">
+                    <input type="submit" class="btn btn-outline-primary" value="로그인">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+<script th:inline="javascript">
+    const to_index = () => {
+        location.href = "/";
+    }
+</script>
+</html>

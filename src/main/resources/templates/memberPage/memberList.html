@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="row m-5">
+    <div class="col">
+        <table class="table">
+            <tr class="table-dark">
+                <th>회원번호</th>
+                <th>회원이메일</th>
+                <th>회원이름</th>
+                <th>회원생일</th>
+                <th>회원전화번호</th>
+            </tr>
+            <tr th:each="member : ${memberList}">
+                <td th:text="${member.getId()}"></td>
+                <td th:text="${member.getMemberEmail()}"></td>
+                <td th:text="${member.getMemberName()}"></td>
+                <td th:text="${member.getMemberBirth()}"></td>
+                <td th:text="${member.getMemberMobile()}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+</html>

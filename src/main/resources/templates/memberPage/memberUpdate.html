@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="row m-5">
+    <div class="col">
+        <div class="card p-5">
+            <form id="member-update-form" th:action="@{|/member/update/${member.id}|}" method="post">
+                <input name="id" type="hidden" class="form-control" th:value="${member.id}">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이메일</span>
+                    <input name="memberEmail" type="text" class="form-control" th:value="${member.memberEmail}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호</span>
+                    <input name="memberPassword" type="password" class="form-control" th:value="${member.memberPassword}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이름</span>
+                    <input name="memberName" type="text" class="form-control" th:value="${member.memberName}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">생년월일</span>
+                    <input name="memberBirth" type="date" class="form-control" th:value="${member.memberBirth}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">전화번호</span>
+                    <input name="memberMobile" type="text" class="form-control" th:value="${member.memberMobile}">
+                </div>
+                <div class="text-end">
+                    <input type="button" class="btn btn-outline-secondary" value="홈화면" th:onclick="to_detail([[${member.id}]])">
+                    <input type="reset" class="btn btn-outline-warning" value="초기화">
+                    <input type="button" class="btn btn-outline-primary" value="저장" onclick="update_member()">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+<script th:inline="javascript">
+    function to_main(id){
+        location.href = "/member/main/"+id;
+    }
+
+    const update_member = () =>{
+        const memberUpdateForm = document.getElementById("member-update-form");
+        if(confirm("수정하시겠습니까?")){
+            memberUpdateForm.submit();
+        }
+    }
+</script>
+</html>

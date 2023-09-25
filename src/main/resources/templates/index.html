@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="row m-5">
+    <div class="col">
+        <h2>홈</h2>
+        <a href="/member/save">회원등록</a> <br>
+        <a href="/member/login">로그인</a> <br>
+        <a href="/members">회원목록</a>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+</html>

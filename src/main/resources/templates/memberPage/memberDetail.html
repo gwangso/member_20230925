@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="row m-5">
+    <div class="col">
+        <div class="card p-5">
+            <div>
+                <h3 th:text="${member.memberEmail}"></h3>
+                <h3 th:text="${member.memberName}"></h3>
+                <h3 th:text="${member.memberBirth}"></h3>
+                <h3 th:text="${member.memberMobile}"></h3>
+            </div>
+            <div>
+                <button class="btn btn-outline-danger">삭제</button>
+                <button class="btn btn-outline-warning" onclick="to_update()">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const to_update = (memberId) =>{
+        const id = [[${member.id}]]
+        location.href = "/member/update/"+id;
+    }
+    /*]]>*/
+</script>
+</html>
