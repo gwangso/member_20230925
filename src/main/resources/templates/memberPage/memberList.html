@@ -9,7 +9,7 @@
 
 <div class="row m-5">
     <div class="col">
-        <table class="table auto">
+        <table class="table ">
             <tr class="table-dark">
                 <th>회원이메일</th>
                 <th>회원이름</th>
@@ -17,7 +17,7 @@
             </tr>
             <tr th:each="member : ${memberList}">
                 <td>
-                    <p th:text="${member.getMemberEmail()}" th:onclick="detail_fn([[${member.id}]])" style="cursor: pointer"></p>
+                    <span th:text="${member.getMemberEmail()}" th:onclick="detail_fn([[${member.id}]])" style="cursor: pointer"></span>
                 </td>
                 <td th:text="${member.getMemberName()}"></td>
                 <td th:text="${member.getMemberMobile()}"></td>

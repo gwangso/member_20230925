@@ -17,10 +17,6 @@
                     <input name="memberEmail" type="text" class="form-control" th:value="${member.memberEmail}" readonly>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">비밀번호</span>
-                    <input name="memberPassword" type="password" class="form-control" th:value="${member.memberPassword}">
-                </div>
-                <div class="input-group mb-3">
                     <span class="input-group-text">이름</span>
                     <input name="memberName" type="text" class="form-control" th:value="${member.memberName}">
                 </div>
@@ -31,6 +27,10 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">전화번호</span>
                     <input name="memberMobile" type="text" class="form-control" th:value="${member.memberMobile}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호 입력</span>
+                    <input name="memberPassword" type="password" class="form-control">
                 </div>
                 <div class="text-end">
                     <input type="button" class="btn btn-outline-secondary" value="홈화면" th:onclick="to_detail([[${member.id}]])">
@@ -48,10 +48,51 @@
         location.href = "/member/"+id;
     }
 
+    /*
     const update_member = () =>{
+        const password = [[${member.memberPassword}]];
+        const memberPassword = document.querySelector('[name="memberPassword"]').value;
+
         const memberUpdateForm = document.getElementById("member-update-form");
-        if(confirm("수정하시겠습니까?")){
-            memberUpdateForm.submit();
+        if(memberPassword == password){
+            if(confirm("수정하시겠습니까?")){
+                memberUpdateForm.submit();
+            }
+        }else {
+            alert("비밀번호가 다릅니다.")
+        }
+    }
+    */
+
+    const update_member = () => {
+        const password = [[${member.memberPassword}]];
+        const memberPassword = document.querySelector('[name="memberPassword"]').value;
+        const id = document.querySelector('[name="id"]').value;
+        const email = document.querySelector('[name="memberEmail"]').value;
+        const name = document.querySelector('[name="memberName"]').value;
+        const mobile = document.querySelector('[name="memberMobile"]').value;
+        const birth = document.querySelector('[name="memberBirth"]').value;
+        if(memberPassword == password){
+            if(confirm("수정하시겠습니까?")){
+                axios({
+                    method:"put",
+                    url:`/member/${id}`,
+                    data:{id :id,
+                        memberEmail : email,
+                        memberPassword : memberPassword,
+                        memberName : name,
+                        memberBirth : birth,
+                        memberMobile : mobile
+                    }
+                }).then(res => {
+                    alert("정보수정이 완료되었습니다.")
+                    location.href = `/member/main/${id}`
+                }).catch(err => {
+                    alert("정보수정에 실패하였습니다.")
+                });
+            }
+        }else {
+            alert("비밀번호가 다릅니다.")
         }
     }
 </script>

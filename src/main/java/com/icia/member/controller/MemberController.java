@@ -125,15 +125,18 @@ public class MemberController {
     }
 
     @PostMapping("/member/update")
-    public String update(@ModelAttribute MemberDTO memberDTO,
-                         HttpSession session,
-                         Model model){
+    public String update(@ModelAttribute MemberDTO memberDTO){
         memberService.update(memberDTO);
-        if(session.getAttribute("loginId") == null){
-            return "redirect:/";
-        }else{
-            return "redirect:/member/"+memberDTO.getId();
-        }
+        return "redirect:/member/"+memberDTO.getId();
+    }
+
+    @PutMapping("/member/{id}")
+    public ResponseEntity updateAxios(@PathVariable("id") Long id,
+                                      @RequestBody MemberDTO memberDTO,
+                                      HttpSession session){
+        memberService.update(memberDTO);
+        session.removeAttribute("loginEmail");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/member/delete/{id}")
