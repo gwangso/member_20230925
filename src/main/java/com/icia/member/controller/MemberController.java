@@ -98,6 +98,18 @@ public class MemberController {
             return "memberPage/notFound";
         }
     }
+    @PostMapping("/member/axios/{id}")
+    public ResponseEntity detail_list(@PathVariable("id") Long id,
+                         Model model){
+        try{
+            MemberDTO memberDTO = memberService.findById(id);
+            return new ResponseEntity(memberDTO, HttpStatus.OK);
+        } catch (NoSuchElementException e){
+            return new ResponseEntity("can't search", HttpStatus.NOT_FOUND);
+        } catch (Exception e){
+            return new ResponseEntity("can't search", HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/member/update/{id}")
     public String update(@PathVariable("id") Long id,

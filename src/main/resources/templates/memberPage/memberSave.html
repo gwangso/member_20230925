@@ -89,9 +89,7 @@
             axios({
                 method:"post", // http request method(get, post, put, delete ...)
                 url : "/member/dup-check",
-                data : {
-                    memberEmail : memberEmail
-                },
+                data : {memberEmail : memberEmail}
             }).then(data => {
                 // 요청성공 후 서버에서 200 응답
                 emailCheck.innerHTML = "사용할 수 있는 이메일입니다.";
