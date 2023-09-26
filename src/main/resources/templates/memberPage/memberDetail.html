@@ -18,16 +18,15 @@
             </div>
 
             <div id="check-password" style="display: none;">
-                <form id="delete-form" th:action="@{|/member/delete/${member.id}|}" method="get" onsubmit="delete_fn()">
+                <form id="delete-form" th:action="@{|/member/delete/${member.id}|}" method="get">
                     <div class="input-group">
                         <span class="input-group-text">비밀번호</span>
                         <input class="form-control" name="memberPassword" type="password">
-                        <button class="btn btn-danger" onclick="delete_fn()">삭제</button>
+                        <button class="btn btn-danger">삭제</button>
                     </div>
                 </form>
             </div>
-
-            <div>
+            <div id="update-delete" th:if="${session.loginId == member.id}">
                 <button class="btn btn-outline-danger" onclick="open_checkPassword()">삭제</button>
                 <button class="btn btn-outline-warning" onclick="to_update()">수정</button>
             </div>
@@ -66,6 +65,5 @@
             alert("비밀번호가 다릅니다.")
         }
     })
-
 </script>
 </html>

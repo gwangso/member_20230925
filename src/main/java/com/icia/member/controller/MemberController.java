@@ -86,15 +86,10 @@ public class MemberController {
 
     @GetMapping("/member/{id}")
     public String detail(@PathVariable("id") Long id,
-                         HttpSession session,
                          Model model){
-        if(session.getAttribute("loginId") == null){
-            return "redirect:/";
-        }else{
-            MemberDTO memberDTO = memberService.findById(id);
-            model.addAttribute("member",memberDTO);
-            return "memberPage/memberDetail";
-        }
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member",memberDTO);
+        return "memberPage/memberDetail";
     }
 
     @GetMapping("/member/update/{id}")
