@@ -7,13 +7,13 @@
 <div th:replace="~{component/header :: header}"></div>
 <div th:replace="~{component/nav :: nav}"></div>
 
-<div class="row m-5">
-    <div class="col">
+<div class="row m-5 justify-content-center">
+    <div class="col-auto col-lg-8">
         <div class="card p-5">
             <form id="member-save-form" action="/member/save" method="post">
                 <div class="input-group">
                     <span class="input-group-text">이메일</span>
-                    <input name="memberEmail" type="text" class="form-control" onkeyup="duplicate_check(this.value)">
+                    <input name="memberEmail" type="text" class="form-control" onblur="duplicate_check(this.value)">
                 </div>
                 <div class="form-text mb-3" id="email-check" style="color:gray;">이메일을 입력해주세요.</div>
                 <div class="input-group mb-3">
@@ -45,23 +45,65 @@
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
+    let duplicate = false
+
     const to_index = () => {
         location.href = "/";
     }
 
     const save_member = () =>{
         const memberSaveForm = document.getElementById("member-save-form");
-        if(confirm("저장하시겠습니까?")){
-            memberSaveForm.submit();
+        const email = document.querySelector('[name="memberEmail"]');
+        const password = document.querySelector('[name="memberPassword"]');
+        const name = document.querySelector('[name="memberName"]');
+        const birth = document.querySelector('[name="memberBirth"]');
+        const mobile = document.querySelector('[name="memberMobile"]');
+        if(email.value == ""){
+            alert("이메일을 입력해주세요")
+            email.focus();
+        }else if(!duplicate){
+            alert("이메일이 중복됩니다.")
+            email.value = "";
+            email.focus();
+        }else if(password.value == ""){
+            alert("비밀번호를 입력해주세요")
+            password.focus();
+        }else if(name.value == ""){
+            alert("비밀번호를 입력해주세요")
+            name.focus();
+        }else{
+            if(confirm("저장하시겠습니까?")){
+                memberSaveForm.submit();
+            }
         }
     }
 
     const duplicate_check = (memberEmail) =>{
+        // const memberEmail = document.querySelector('name=[memberEmail]');
         const emailCheck = document.getElementById("email-check");
         if(memberEmail==""){
             emailCheck.innerHTML = "이메일을 입력해주세요."
             emailCheck.style.color = "gray";
+            duplicate = false;
         }else {
+            axios({
+                method:"post", // http request method(get, post, put, delete ...)
+                url : "/member/dup-check",
+                data : {
+                    memberEmail : memberEmail
+                },
+            }).then(data => {
+                // 요청성공 후 서버에서 200 응답
+                emailCheck.innerHTML = "사용할 수 있는 이메일입니다.";
+                emailCheck.style.color = "green";
+                duplicate = true;
+            }).catch(err => {
+                // 요청실패 또는 서버에서 4xx, 5xx응받
+                emailCheck.innerHTML = "사용할 수 없는 이메일입니다."
+                emailCheck.style.color = "red";
+                duplicate = false;
+            });
+            /*
             $.ajax({
                 type:"post",
                 url:"/member/dup-check",
@@ -75,6 +117,7 @@
                     emailCheck.style.color = "red";
                 }
             })
+            */
         }
     }
 </script>

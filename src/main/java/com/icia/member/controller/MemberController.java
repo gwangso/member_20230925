@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Member;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class MemberController {
     }
 
     @PostMapping("/member/dup-check")
-    public ResponseEntity emailDuplicate(@RequestParam("memberEmail") String memberEmail){
-        boolean result = memberService.findByEmail(memberEmail);
+    public ResponseEntity emailDuplicate(@RequestBody MemberDTO memberDTO){
+        boolean result = memberService.findByEmail(memberDTO.getMemberEmail());
         if(result){
             return new ResponseEntity<>(true, HttpStatus.OK);
         }else{
@@ -87,9 +88,15 @@ public class MemberController {
     @GetMapping("/member/{id}")
     public String detail(@PathVariable("id") Long id,
                          Model model){
-        MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("member",memberDTO);
-        return "memberPage/memberDetail";
+        try{
+            MemberDTO memberDTO = memberService.findById(id);
+            model.addAttribute("member",memberDTO);
+            return "memberPage/memberDetail";
+        } catch (NoSuchElementException e){
+            return "memberPage/notFound";
+        } catch (Exception e){
+            return "memberPage/notFound";
+        }
     }
 
     @GetMapping("/member/update/{id}")
@@ -126,6 +133,4 @@ public class MemberController {
         memberService.delete(id);
         return "redirect:/";
     }
-
-
 }
