@@ -48,12 +48,15 @@ public class MemberController {
     }
 
     @GetMapping("/member/login")
-    public String login(){
+    public String login(@RequestParam(value="redirectURI", defaultValue = "/member/mypage") String redirectURI,
+                        Model model){
+        model.addAttribute("redirectURI", redirectURI);
         return "memberPage/memberLogin";
     }
 
     @PostMapping("/member/login")
-    public String login(@RequestParam("memberEmail") String memberEmail,
+    public String login(@RequestParam("redirectURI") String redirectURI,
+                        @RequestParam("memberEmail") String memberEmail,
                         @RequestParam("memberPassword") String memberPassword,
                         HttpSession session){
         MemberDTO memberDTO = memberService.login(memberEmail, memberPassword);
@@ -63,7 +66,7 @@ public class MemberController {
             session.setAttribute("loginId", memberDTO.getId());
             session.setAttribute("loginEmail", memberDTO.getMemberEmail());
             session.setAttribute("loginName", memberDTO.getMemberName());
-            return "redirect:/member/main/"+memberDTO.getId();
+            return "redirect:"+redirectURI;
         }
     }
 
@@ -74,6 +77,16 @@ public class MemberController {
         session.removeAttribute("loginName");
         return "redirect:/";
     }
+
+    @GetMapping("/member/mypage")
+    public String main(HttpSession session){
+        if(session.getAttribute("loginId") == null){
+            return "redirect:/";
+        }else{
+            return "memberPage/memberMain";
+        }
+    }
+
 
     @GetMapping("/member/main/{id}")
     public String main(@PathVariable("id") Long id,
@@ -135,17 +148,26 @@ public class MemberController {
                                       @RequestBody MemberDTO memberDTO,
                                       HttpSession session){
         memberService.update(memberDTO);
-        session.removeAttribute("loginEmail");
+//        session.removeAttribute("loginEmail");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/member/delete/{id}")
-    public String update(@PathVariable("id") Long id,
+    public String delete(@PathVariable("id") Long id,
                          HttpSession session){
         session.removeAttribute("loginId");
         session.removeAttribute("loginEmail");
         session.removeAttribute("loginName");
         memberService.delete(id);
         return "redirect:/";
+    }
+    @PostMapping("/member/delete/{id}")
+    public ResponseEntity deleteAxios(@PathVariable("id") Long id,
+                         HttpSession session){
+        session.removeAttribute("loginId");
+        session.removeAttribute("loginEmail");
+        session.removeAttribute("loginName");
+        memberService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

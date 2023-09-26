@@ -53,6 +53,7 @@
     const deleteForm = document.getElementById("delete-form");
     deleteForm.addEventListener("submit", (event) =>{
         event.preventDefault();
+        const id = [[${member.id}]]
         const memberPassword = [[${member.memberPassword}]]
         const password = document.getElementsByName("memberPassword")[0]
         console.log(memberPassword)
@@ -60,6 +61,17 @@
         if(memberPassword == password.value){
             if(confirm("정말로 탈퇴하시겠습니까?")){
                 deleteForm.submit();
+
+                /*
+                axios({
+                    type:"post",
+                    url:`/member/delete/${id}`
+                }).then(res => {
+                    alert("탈퇴 완료했습니다.")
+                }).catch(err => {
+                    alert("탈퇴에 실패했습니다.")
+                });
+                */
             }
         }else{
             alert("비밀번호가 다릅니다.")
