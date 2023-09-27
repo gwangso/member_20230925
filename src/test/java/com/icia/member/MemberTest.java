@@ -5,6 +5,7 @@ import com.icia.member.repository.MemberRepository;
 import com.icia.member.service.MemberService;
 // Assertions에 속한 모든 static 메서드를 사용할 때 메서드 이름만 작성해서 사용 가능하도록 만듬
 // import 다음 static을 해주고, 클래스명 뒤에 .*을 해주면 된다.
+//import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test; // 자바에서 제공하는 테스트를 위한 라이브러리
